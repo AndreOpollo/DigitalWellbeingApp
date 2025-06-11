@@ -10,7 +10,7 @@ import javax.inject.Inject
 class UsageStatsManagerSource @Inject constructor(
     private val usageStatsManager: UsageStatsManager
 ){
-    fun getUsageStats(
+    private fun getUsageStats(
         interval:Int,
         startTime:Long,
         endTime:Long
