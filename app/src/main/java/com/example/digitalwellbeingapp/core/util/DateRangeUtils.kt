@@ -1,6 +1,7 @@
 package com.example.digitalwellbeingapp.core.util
 
 
+import android.R.attr.end
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -9,6 +10,7 @@ fun getStartEndOfDay(
     dayOfMonth:Int,
     timeZone: TimeZone = TimeZone.getDefault()
 ):Pair<Long,Long>{
+    val now = Calendar.getInstance(timeZone)
     val calendar = Calendar.getInstance(timeZone).apply {
         set(Calendar.MONTH,month)
         set(Calendar.DAY_OF_MONTH,dayOfMonth)
@@ -18,17 +20,26 @@ fun getStartEndOfDay(
         set(Calendar.MILLISECOND,0)
     }
     val start = calendar.timeInMillis
-    calendar.set(Calendar.HOUR_OF_DAY,23)
-    calendar.set(Calendar.MINUTE,59)
-    calendar.set(Calendar.SECOND,59)
-    calendar.set(Calendar.MILLISECOND,999)
-    val end = calendar.timeInMillis
+    val isToday = now.get(Calendar.MONTH) == month &&
+            now.get(Calendar.DAY_OF_MONTH) == dayOfMonth &&
+            now.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+    val end = if(isToday){
+        now.timeInMillis
+    }else {
+        calendar.apply {
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }.timeInMillis
+    }
     return start to end
 }
 fun getStartEndOfWeek(
     weekOfYear:Int,
     timeZone: TimeZone = TimeZone.getDefault()
 ):Pair<Long, Long>{
+    val now = Calendar.getInstance(timeZone)
     val calendar = Calendar.getInstance(timeZone).apply {
         set(Calendar.WEEK_OF_YEAR,weekOfYear)
         set(Calendar.DAY_OF_WEEK,firstDayOfWeek)
@@ -38,11 +49,22 @@ fun getStartEndOfWeek(
         set(Calendar.MILLISECOND,0)
     }
     val start = calendar.timeInMillis
-    calendar.set(Calendar.DAY_OF_WEEK,6)
-    calendar.set(Calendar.HOUR_OF_DAY,23)
-    calendar.set(Calendar.MINUTE,59)
-    calendar.set(Calendar.SECOND,59)
-    calendar.set(Calendar.MILLISECOND,999)
-    val end = calendar.timeInMillis
+    val currentWeek = now.get(Calendar.WEEK_OF_YEAR)
+    val currentYear = now.get(Calendar.YEAR)
+    val isCurrentWeek = weekOfYear == currentWeek &&
+            calendar.get(Calendar.YEAR) == currentYear
+
+    val end = if(isCurrentWeek){
+        now.timeInMillis
+    }else{
+        calendar.apply {
+            add(Calendar.DAY_OF_WEEK,6)
+            set(Calendar.HOUR_OF_DAY,23)
+            set(Calendar.MINUTE,59)
+            set(Calendar.SECOND,59)
+            set(Calendar.MILLISECOND,999)
+        }.timeInMillis
+    }
+
     return start to end
 }

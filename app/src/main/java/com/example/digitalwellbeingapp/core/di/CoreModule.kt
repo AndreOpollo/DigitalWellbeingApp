@@ -2,7 +2,9 @@ package com.example.digitalwellbeingapp.core.di
 
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import com.example.digitalwellbeingapp.core.data.repository.AppUsageRepositoryImpl
 import com.example.digitalwellbeingapp.core.data.service.UsageStatsManagerSource
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +14,7 @@ import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+object CoreModule {
 
     @Provides
     @Singleton
@@ -26,4 +28,5 @@ object ServiceModule {
     fun provideUsageStatsManagerSource(usageStatsManager: UsageStatsManager): UsageStatsManagerSource{
         return UsageStatsManagerSource(usageStatsManager)
     }
+
 }
