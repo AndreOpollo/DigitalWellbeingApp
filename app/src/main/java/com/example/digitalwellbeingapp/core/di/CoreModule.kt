@@ -10,7 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,8 +25,9 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideUsageStatsManagerSource(usageStatsManager: UsageStatsManager): UsageStatsManagerSource{
-        return UsageStatsManagerSource(usageStatsManager)
+    fun provideUsageStatsManagerSource(usageStatsManager: UsageStatsManager,
+                                       @ApplicationContext context: Context): UsageStatsManagerSource{
+        return UsageStatsManagerSource(usageStatsManager, context)
     }
 
 }

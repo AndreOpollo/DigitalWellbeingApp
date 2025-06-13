@@ -8,10 +8,12 @@ import java.util.TimeZone
 fun getStartEndOfDay(
     month:Int,
     dayOfMonth:Int,
-    timeZone: TimeZone = TimeZone.getDefault()
+    timeZone: TimeZone = TimeZone.getDefault(),
+    year:Int = Calendar.getInstance().get(Calendar.YEAR)
 ):Pair<Long,Long>{
     val now = Calendar.getInstance(timeZone)
     val calendar = Calendar.getInstance(timeZone).apply {
+        set(Calendar.YEAR,year)
         set(Calendar.MONTH,month)
         set(Calendar.DAY_OF_MONTH,dayOfMonth)
         set(Calendar.HOUR_OF_DAY,0)
@@ -22,7 +24,7 @@ fun getStartEndOfDay(
     val start = calendar.timeInMillis
     val isToday = now.get(Calendar.MONTH) == month &&
             now.get(Calendar.DAY_OF_MONTH) == dayOfMonth &&
-            now.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+            now.get(Calendar.YEAR) == year
     val end = if(isToday){
         now.timeInMillis
     }else {

@@ -1,6 +1,7 @@
 package com.example.digitalwellbeingapp.core.data.repository
 
 
+import android.util.Log
 import com.example.digitalwellbeingapp.core.data.service.UsageStatsManagerSource
 import com.example.digitalwellbeingapp.core.domain.model.AppUsageInfo
 import com.example.digitalwellbeingapp.core.domain.repository.AppUsageRepository
@@ -45,8 +46,7 @@ class AppUsageRepositoryImpl @Inject constructor(
         try {
             val stats = usageStatsManagerSource
                 .getDailyStatsUsage(month,day)
-            val appStats = stats.map { it.toAppUsageInfo() }
-            emit(Resource.Success(appStats))
+            emit(Resource.Success(stats))
         }catch (e: Exception){
             e.printStackTrace()
             emit(Resource.Error(message = e.localizedMessage?:"Something went wrong"))
@@ -60,8 +60,7 @@ class AppUsageRepositoryImpl @Inject constructor(
                 emit(Resource.Loading(true))
                 try {
                     val stats = usageStatsManagerSource.getWeeklyStatsUsage(week)
-                    val appStats = stats.map { it.toAppUsageInfo() }
-                    emit(Resource.Success(appStats))
+                    emit(Resource.Success(stats))
                 }  catch (e: Exception){
                     e.printStackTrace()
                     emit(Resource.Error(message = e.localizedMessage?:"Something went wrong"))
@@ -70,4 +69,7 @@ class AppUsageRepositoryImpl @Inject constructor(
                 }
 
     }
+
+
+
 }

@@ -11,7 +11,9 @@ class GetTodayUsageUseCase @Inject constructor(
     private val repository: AppUsageRepository
 ){
     suspend operator fun invoke():Flow<Resource<List<AppUsageInfo>>>{
-        val calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.DAY_OF_MONTH,-3)
+        }
         val todayMonth = calendar.get(Calendar.MONTH)
         val todayDay = calendar.get(Calendar.DAY_OF_MONTH)
         return repository.getDailyAppUsageStats(month = todayMonth, day = todayDay)

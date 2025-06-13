@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.digitalwellbeingapp.ui.home.HomeScreen
 import com.example.digitalwellbeingapp.ui.theme.DigitalWellbeingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DigitalWellbeingAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+                    HomeScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

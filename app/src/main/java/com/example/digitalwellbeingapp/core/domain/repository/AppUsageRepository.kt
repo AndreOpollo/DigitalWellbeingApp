@@ -14,4 +14,5 @@ interface AppUsageRepository {
     suspend fun getDailyAppUsageStats(month:Int,
                                       day:Int):Flow<Resource<List<AppUsageInfo>>>
     suspend fun getWeeklyAppUsageStats(week:Int):Flow<Resource<List<AppUsageInfo>>>
+
 }
